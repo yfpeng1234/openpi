@@ -2,6 +2,7 @@ import os
 import h5py
 import numpy as np
 
+from lerobot.common.datasets.lerobot_dataset import LEROBOT_HOME
 from lerobot.common.datasets.lerobot_dataset import LeRobotDataset
 import tyro
 
@@ -83,10 +84,9 @@ def main(data_dir: str, output_dir: str, task_id: int, *, push_to_hub: bool = Fa
                                              episode['obs']['robot1_gripper_qpos'][time_idx]
                                              ]).astype(np.float32),
                     "actions": episode["actions"][time_idx].astype(np.float32),
-                    "task": task_name,
                 }
             )
-        dataset.save_episode()
+        dataset.save_episode(task=task_name)
 
     dataset.consolidate(run_compute_stats=False)
 
